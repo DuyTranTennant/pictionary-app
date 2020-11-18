@@ -1,0 +1,30 @@
+{
+  "name": "pictionary-app",
+  "version": "1.0.0",
+  "description": "A nice project with a nice description",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DuyTranTennant/pictionary-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DuyTranTennant/pictionary-app/issues"
+  },
+  "homepage": "https://github.com/DuyTranTennant/pictionary-app#readme",
+  "engines": {
+    "node": "12.17.x"
+  },
+  "dependencies": {
+    "bufferutil": "^4.0.2",
+    "express": "^4.17.1",
+    "utf-8-validate": "^5.0.3",
+    "ws": "^7.4.0"
+  }
+}
