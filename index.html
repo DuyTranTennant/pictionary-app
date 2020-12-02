@@ -1,17 +1,57 @@
 <html>
-  <head>
-    <script>
-      let HOST = location.origin.replace(/^http/, 'ws')
-      let ws = new WebSocket(HOST);
-      let el;
 
-      ws.onmessage = (event) => {
-        el = document.getElementById('server-time');
-        el.innerHTML = 'Server time: ' + event.data;
-      };
-    </script>
-  </head>
-  <body>
-    <p id="server-time"></p>
-  </body>
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="application.js"></script>
+
+  <script>
+    let HOST = location.origin.replace(/^http/, 'ws')
+    let ws = new WebSocket(HOST);
+    let el;
+
+    ws.onmessage = (event) => {
+      el = document.getElementById('server-time');
+      el.innerHTML = 'Server time: ' + event.data;
+    };
+  </script>
+</head>
+<body>
+  <p id="server-time"></p>
+
+  <canvas width="600" height="400"></canvas>
+  <div class="controls">
+    <ul>
+      <li class="red selected"></li>
+      <li class="blue"></li>
+      <li class="yellow"></li>
+    </ul>
+    <button id="revealColorSelect">New Color</button>
+    <button id="clear">Clear</button>
+    <div id="colorSelect">
+      <span id="newColor"></span>
+      <div class="sliders">
+        <p>
+          <label for="red">Red</label>
+          <input id="red" name="red" type="range" min=0 max=255 value=0>
+        </p>
+        <p>
+          <label for="green">Green</label>
+          <input id="green" name="green" type="range" min=0 max=255 value=0>
+        </p>
+        <p>
+          <label for="blue">Blue</label>
+          <input id="blue" name="blue" type="range" min=0 max=255 value=0>
+        </p>
+      </div>
+      <div>
+        <button id="addNewColor">Add Color</button>
+      </div>
+    </div>
+    <button id="refer"><a href="http://referrals.trhou.se/jasonchan2" style="text-align:center;">Learn To
+        Code</a></button>
+  </div>
+
+</body>
+
 </html>
