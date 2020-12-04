@@ -61,15 +61,17 @@ $(document).ready(function () {
             context.stroke();
             lastEvent = e;
         }
+        ws.send(document.getElementById('myCanvas').toDataURL());
     }).mouseup(function () {
         mouseDown = false;
-        ws.send("Hello server!");
     }).mouseleave(function () {
         $canvas.mouseup();
     });
     // Added clear functionality
     $("#clear").click(function () {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+        ws.send(document.getElementById('myCanvas').toDataURL());
+
     });
 
 

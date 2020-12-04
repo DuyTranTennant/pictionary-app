@@ -13,20 +13,23 @@ const app = express()
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 
-  
+
 const wss = new Server({ server: app });
 
+var dataUrl;
 wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
+    dataUrl = message;
   });
 
 });
 
 setInterval(() => {
   wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
+    // client.send(new Date().toTimeString());
+    client.send(dataUrl);
   });
-}, 1000);
+}, 0);
