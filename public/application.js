@@ -61,8 +61,8 @@ $(document).ready(function () {
             context.stroke();
             lastEvent = e;
         }
-        ws.send(document.getElementById('myCanvas').toDataURL());
     }).mouseup(function () {
+        ws.send(document.getElementById('myCanvas').toDataURL());
         mouseDown = false;
     }).mouseleave(function () {
         $canvas.mouseup();

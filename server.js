@@ -21,7 +21,6 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
     dataUrl = message;
   });
 
@@ -32,4 +31,4 @@ setInterval(() => {
     // client.send(new Date().toTimeString());
     client.send(dataUrl);
   });
-}, 0);
+}, 100);
