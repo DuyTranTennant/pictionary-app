@@ -69,14 +69,14 @@ button {
 	font-size: 16px;
 	line-height: 40px;
 }
-#revealColorSelect, #clear, #refer {
+#revealColorSelect, #clear, #refer, #start, #stop {
 	border: none;
 	border-radius: 5px;
 	margin: 10px auto;
 	padding: 5px 20px;
 	width: 160px;
 }
-#refer {
+#refer, #start, #stop  {
   background: #ECD13F;
   
 }
