@@ -1,7 +1,7 @@
 {
   "name": "pictionary-app",
   "version": "1.0.0",
-  "description": "An implementation of the Pictoary Party game via NodeJs and Websockets",
+  "description": "An implementation of the Pictionary Party game via NodeJs and Websockets",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
