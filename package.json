@@ -1,8 +1,8 @@
 {
   "name": "pictionary-app",
   "version": "1.0.0",
-  "description": "A nice project with a nice description",
-  "main": "index.js",
+  "description": "An implementation of the Pictoary Party game via NodeJs and Websockets",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
