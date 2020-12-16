@@ -8,6 +8,24 @@ $(document).ready(function () {
     var context = $canvas[0].getContext("2d");
     var lastEvent;
     var mouseDown = false;
+
+    ws.onmessage = (event) => {
+        if (event.data == 'Disable start'){
+            alert(event.data);
+            return;
+        }
+        img = document.getElementById('grayscale');
+        img.src = event.data;
+    };
+
+    //When click on start btn
+    $("#start").on("click", function () {
+        ws.send("Start");
+    });
+    //When click on stop btn
+    $("#stop").on("click", function () {
+        ws.send("Stop");
+    });
     //When click on control list items
     $(".controls").on("click", "li", function () {
         // Deselect sibling elements
@@ -73,7 +91,4 @@ $(document).ready(function () {
         ws.send(document.getElementById('myCanvas').toDataURL());
 
     });
-
-
-
 })

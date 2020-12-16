@@ -4,19 +4,6 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="application.js"></script>
-
-  <script>
-    let HOST = location.origin.replace(/^http/, 'ws')
-    let ws = new WebSocket(HOST);
-    let el;
-
-    ws.onmessage = (event) => {
-
-      img = document.getElementById('grayscale');
-      img.src = event.data;
-
-    };
-  </script>
 </head>
 
 <body>
@@ -58,6 +45,8 @@
     </div>
     <button id="refer"><a href="http://referrals.trhou.se/jasonchan2" style="text-align:center;">Learn To
         Code</a></button>
+    <button id="start">Start</button>
+    <button id="stop">Stop</a></button>
   </div>
 
 </body>

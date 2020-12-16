@@ -20,7 +20,30 @@ var dataUrl;
 wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
+  let start = false
   ws.on('message', function incoming(message) {
+    if (message === 'Start' && start == false){
+      start = true
+      console.log(message)
+      wss.clients.forEach((client) => {
+        client.send('Disable start');
+      });
+      return
+    }
+    if (message === 'Start' && start == true){
+      console.log('Already started')
+      return
+    }
+
+    if (message === 'Stop' && start == true){
+      start = false
+      console.log(message)
+      return
+    }
+    if (message === 'Stop' && start == false){
+      console.log('Hasnt started')
+      return
+    }
     dataUrl = message;
   });
 
@@ -28,7 +51,6 @@ wss.on('connection', (ws) => {
 
 setInterval(() => {
   wss.clients.forEach((client) => {
-    // client.send(new Date().toTimeString());
     client.send(dataUrl);
   });
 }, 100);
