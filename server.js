@@ -2,7 +2,7 @@ const express = require('express');
 const { Server } = require('ws');
 const path = require('path');
 const {
-  START, STOP, DRAWING_STARTED, DRAWING_STOPPED, DRAWING,
+  START, STOP, SHOW_PREVIEW, DRAWING_STOPPED, DRAWING, SHOW_CANVAS, INITIALISE
 } = require('./public/constants');
 
 const PORT = process.env.PORT || 3000;
@@ -24,7 +24,7 @@ const init = () => {
   wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING, payload: dataUrl })));
 
   start = false;
-  wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING_STOPPED })));
+  wss.clients.forEach((client) => client.send(JSON.stringify({ command: INITIALISE })));
 
   console.log('Server initialized');
 };
@@ -49,7 +49,13 @@ wss.on('connection', (ws) => {
 
         start = true;
         console.log('Start Drawing');
-        wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING_STARTED })));
+        wss.clients.forEach((client) => {
+          if (client !== ws){
+            client.send(JSON.stringify({ command: SHOW_PREVIEW }));
+          }
+        })
+        ws.send(JSON.stringify({ command: SHOW_CANVAS }))
+
         break;
 
       case STOP:
@@ -61,6 +67,7 @@ wss.on('connection', (ws) => {
         start = false;
         console.log('Stop drawing');
         wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING_STOPPED })));
+        wss.clients.forEach((client) => client.send(JSON.stringify({ command: INITIALISE })));
         break;
       default:
         wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING, payload: message })));
