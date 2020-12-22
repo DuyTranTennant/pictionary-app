@@ -1,35 +1,27 @@
-'use strict';
-
 const express = require('express');
 const { Server } = require('ws');
-var path = require('path');
+const path = require('path');
 
 const PORT = process.env.PORT || 3000;
 const INDEX = '/index.html';
 
 const app = express()
   .use(express.static(path.join(__dirname, 'public')))
-  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .use((_req, res) => res.sendFile(INDEX, { root: __dirname }))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-
-
 const wss = new Server({ server: app });
+const sendToAllClients = (options) => wss.clients.forEach((client) => client.send(options));
 
-var dataUrl;
+let dataUrl = '';
+
 wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
-  ws.on('message', function incoming(message) {
+  ws.on('message', (message) => {
     console.log('received: %s', message);
     dataUrl = message;
   });
-
 });
 
-setInterval(() => {
-  wss.clients.forEach((client) => {
-    // client.send(new Date().toTimeString());
-    client.send(dataUrl);
-  });
-}, 0);
+setInterval(() => sendToAllClients(dataUrl), 100);
