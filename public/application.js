@@ -1,79 +1,80 @@
 //Problem: No user interaction causes no change to application
+
 // Solution: When user interacts cause changes appropriately
-$(document).ready(function () {
-    let HOST = location.origin.replace(/^http/, 'ws')
-    let ws = new WebSocket(HOST);
-    var color = $(".selected").css("background-color");
-    var $canvas = $("canvas");
-    var context = $canvas[0].getContext("2d");
-    var lastEvent;
-    var mouseDown = false;
-    //When click on control list items
-    $(".controls").on("click", "li", function () {
-        // Deselect sibling elements
-        $(this).siblings().removeClass("selected");
-        // select clicked element
-        $(this).addClass("selected");
-        //cache current color
-        color = $(this).css("background-color");
-    });
+$(document).ready(() => {
+  let HOST = location.origin.replace(/^http/, 'ws')
+  let ws = new WebSocket(HOST);
+  $("#status").text("Connecting")
+  var $canvas = $("canvas");
+  var canvas = $canvas[0];
+  var context = canvas.getContext("2d");
+  var $preview = $("#preview");
+  var lastEvent;
+  var mouseDown = false;
 
+  const clearSketchPad = () => {
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height)
+    ws.send(canvas.toDataURL())
+  }
 
-    //when new color is pressed
-    $("#revealColorSelect").click(function () {
-        //show color select or hide color select
-        changeColor();
-        $("#colorSelect").toggle();
-    });
+  const init = () => {
+    $("#status").text("Initialising")
+    $("#start").removeProp("disabled")
+    $("#stop").prop("disabled", "disabled")
+    clearSketchPad()
+  }
 
-    //update the new color span 
-    function changeColor() {
-        var r = $("#red").val();
-        var g = $("#green").val();
-        var b = $("#blue").val();
-        $("#newColor").css("background-color", "rgb(" + r + "," + g + "," + b + ")");
-    }
-    //when color slider change 
-    $("input[type=range]").change(changeColor);
-
-    //when add color is pressed 
-    $("#addNewColor").click(function () {
-        //append the color to the controls ul
-        var $newColor = $("<li></li>");
-        $newColor.css("background-color", $("#newColor").css("background-color"));
-        $(".controls ul").append($newColor);
-        // select the new color
-        $newColor.click();
-    });
-
-
+  ws.onopen = () => {
+    init()
+    
+    $("#start").click(() => ws.send(constants.START));
+    $("#stop").click(() => ws.send(constants.STOP));
+    $("#status").text("Connected")
+    
     //On mouse events on the canvas
-    $canvas.mousedown(function (e) {
+    $canvas.mousedown((e) => {
+      lastEvent = e;
+      mouseDown = true;
+    }).mousemove((e) => {
+      //draw lines
+      if (mouseDown) {
+        context.beginPath();
+        context.moveTo(lastEvent.offsetX, lastEvent.offsetY);
+        context.lineTo(e.offsetX, e.offsetY);
+        context.stroke();
         lastEvent = e;
-        mouseDown = true;
-    }).mousemove(function (e) {
-        //draw lines
-        if (mouseDown) {
-            context.beginPath();
-            context.moveTo(lastEvent.offsetX, lastEvent.offsetY);
-            context.lineTo(e.offsetX, e.offsetY);
-            context.strokeStyle = color;
-            context.stroke();
-            lastEvent = e;
-        }
-        ws.send(document.getElementById('myCanvas').toDataURL());
-    }).mouseup(function () {
-        mouseDown = false;
-    }).mouseleave(function () {
-        $canvas.mouseup();
+      }
+    }).mouseup(() => {
+      ws.send(canvas.toDataURL());
+      mouseDown = false;
+    }).mouseleave(() => {
+      $canvas.mouseup();
     });
     // Added clear functionality
-    $("#clear").click(function () {
-        context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-        ws.send(document.getElementById('myCanvas').toDataURL());
+    $("#clear").click(clearSketchPad);
+  }
 
-    });
+  ws.onclose = () => {
+    $("#status").text("Disconnected")
+  }
+  
+  ws.onmessage = ({ data }) => {
+    const { command, payload } = JSON.parse(data);
+    switch (command) {
+      case constants.DRAWING_STARTED:
+        alert("Drawing has started")
+        break;
+      case constants.DRAWING_STOPPED:
+        alert("Drawing has stopped")
+        break;
+      case constants.DRAWING:
+        $preview.prop("src", payload);
+      default:
+        break;
+    }
+  };
 
-
-
+  ws.onerror = (event) => {
+    console.error(event)
+  }
 })

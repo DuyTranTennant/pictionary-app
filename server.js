@@ -1,6 +1,9 @@
 const express = require('express');
 const { Server } = require('ws');
 const path = require('path');
+const {
+  START, STOP, DRAWING_STARTED, DRAWING_STOPPED, DRAWING,
+} = require('./public/constants');
 
 const PORT = process.env.PORT || 3000;
 const INDEX = '/index.html';
@@ -13,15 +16,54 @@ const app = express()
 const wss = new Server({ server: app });
 const sendToAllClients = (options) => wss.clients.forEach((client) => client.send(options));
 
-let dataUrl = '';
+let dataUrl;
+let start;
+
+const init = () => {
+  dataUrl = '';
+  wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING, payload: dataUrl })));
+
+  start = false;
+  wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING_STOPPED })));
+
+  console.log('Server initialized');
+};
+
+init();
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  ws.on('close', () => console.log('Client disconnected'));
+
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    init();
+  });
+
   ws.on('message', (message) => {
-    console.log('received: %s', message);
-    dataUrl = message;
+    switch (message) {
+      case START:
+        if (start) {
+          console.log('Already started');
+          break;
+        }
+
+        start = true;
+        console.log('Start Drawing');
+        wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING_STARTED })));
+        break;
+
+      case STOP:
+        if (!start) {
+          console.log("Drawing hasn't started yet");
+          break;
+        }
+
+        start = false;
+        console.log('Stop drawing');
+        wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING_STOPPED })));
+        break;
+      default:
+        wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING, payload: message })));
+    }
   });
 });
-
-setInterval(() => sendToAllClients(dataUrl), 100);
