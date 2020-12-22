@@ -1,11 +1,11 @@
 {
   "name": "pictionary-app",
   "version": "0.1.0",
-  "description": "A nice project with a nice description",
-  "main": "index.js",
+  "description": "An implementation of the Pictionary Party game via NodeJs and Websockets",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "eslint": "^7.15.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.6"
   }
 }
