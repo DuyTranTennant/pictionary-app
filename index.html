@@ -16,11 +16,11 @@
     <div class="row">
       <div class="col-sm text-center">
         <h2>Board</h2>
-        <canvas id="board" height="300px" width="400px"></canvas>
+        <canvas style="display: none;" id="board" height="300px" width="400px"></canvas>
         <div class="p-3">
           <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
             <button type="button" id="start" class="btn btn-success">Start Drawing</button>
-            <button type="button" id="stop" class="btn btn-danger" disabled>Stop Drawing</button>
+            <button type="button" id="stop" class="btn btn-danger">Stop Drawing</button>
           </div>
           <button type="button" id="clear" class="btn btn-lg btn-info">Clear Drawing</button>
         </div>
@@ -29,7 +29,7 @@
       <div class="col-sm text-center">
         <h2>Preview</h2>
         <div class="paper">
-          <img id="preview"/>
+          <img id="preview" style="display: none;"/>
         </div>
       </div>
     </div>
