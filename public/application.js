@@ -121,7 +121,8 @@ $(document).ready(() => {
                 init();
                 break;
             case constants.CHAT:
-                alert(payload);
+                createChatBubble(JSON.parse(data).message, 'their_chatbox__display_chat');
+                openChatBox();
                 break;
             default:
                 break;
