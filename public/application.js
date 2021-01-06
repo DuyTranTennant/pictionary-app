@@ -127,6 +127,20 @@ $(document).ready(() => {
                 break;
         }
     };
+    function openChatBox(){
+        if (!$(chatbox).hasClass('chatbox--is-visible')){
+            toggleChatbox();
+        }
+    }
+    function toggleChatbox(){
+        chatbox.classList.toggle("chatbox--is-visible");
+
+        if (chatbox.classList.contains("chatbox--is-visible")) {
+            toggleChatboxBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
+        } else {
+            toggleChatboxBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+        }      
+    }
 
     ws.onerror = (event) => {
         console.error(event);
