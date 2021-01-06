@@ -66,26 +66,26 @@ $(document).ready(() => {
         switch (command) {
             case constants.SHOW_CANVAS:
                 $('#board').show();
-                $("#stop").prop("disabled", false)
-                $("#clear").prop("disabled", false)
-                $("#start").prop("disabled", "disabled")
+                $("#stop").prop("disabled", false);
+                $("#clear").prop("disabled", false);
+                $("#start").prop("disabled", "disabled");
                 break;
             case constants.SHOW_PREVIEW:
                 $('#preview').show();
                 $("#start").prop("disabled", "disabled");
                 $("#stop").prop("disabled", "disabled");
-                $("#clear").prop("disabled", "disabled")
+                $("#clear").prop("disabled", "disabled");
                 break;
             case constants.DRAWING_STOPPED:
-                $("#start").prop("disabled", false)
-                $("#stop").prop("disabled", "disabled")
+                $("#start").prop("disabled", false);
+                $("#stop").prop("disabled", "disabled");
                 $('#board').hide();
                 break;
             case constants.DRAWING:
                 $preview.prop("src", payload);
                 break;
             case constants.INITIALISE:
-                init()
+                init();
                 break;
             default:
                 break;
@@ -93,6 +93,6 @@ $(document).ready(() => {
     };
 
     ws.onerror = (event) => {
-        console.error(event)
+        console.error(event);
     }
 })
