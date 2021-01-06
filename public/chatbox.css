@@ -62,7 +62,18 @@ body {
   overflow: auto;
   padding: 0.75em;
 }
-.chatbox__display-chat {
+.your_chatbox__display_chat {
+  background: #d5eaec;
+  border-radius: 0.5em;
+  color: #666;
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.75em;
+  text-align: justify;
+}
+
+.their_chatbox__display_chat {
   background: #fff;
   border-radius: 0.5em;
   color: #666;
