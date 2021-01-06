@@ -40,7 +40,8 @@ wss.on('connection', (ws) => {
   });
 
   ws.on('message', (message) => {
-    switch (message) {
+    const { command } = JSON.parse(message);
+    switch (command) {
       case START:
         if (start) {
           console.log('Already started');
