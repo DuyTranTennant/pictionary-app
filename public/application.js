@@ -47,7 +47,7 @@ $(document).ready(() => {
 
     const clearSketchPad = () => {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-        ws.send(JSON.stringify({command: constants.DRAWING, message: canvas.toDataURL()}));
+        ws.send(JSON.stringify({ command: constants.DRAWING, message: canvas.toDataURL() }));
     }
 
     const init = () => {
@@ -63,8 +63,8 @@ $(document).ready(() => {
     ws.onopen = () => {
         init()
 
-        $("#start").click(() => ws.send(JSON.stringify({command: constants.START})));
-        $("#stop").click(() => ws.send(JSON.stringify({command: constants.STOP})));
+        $("#start").click(() => ws.send(JSON.stringify({ command: constants.START })));
+        $("#stop").click(() => ws.send(JSON.stringify({ command: constants.STOP })));
         $("#status").text("Connected")
 
         //On mouse events on the canvas
@@ -81,7 +81,7 @@ $(document).ready(() => {
                 lastEvent = e;
             }
         }).mouseup(() => {
-            ws.send(JSON.stringify({command: constants.DRAWING, message: canvas.toDataURL()}));
+            ws.send(JSON.stringify({ command: constants.DRAWING, message: canvas.toDataURL() }));
             mouseDown = false;
         }).mouseleave(() => {
             $canvas.mouseup();
