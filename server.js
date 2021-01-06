@@ -2,7 +2,7 @@ const express = require('express');
 const { Server } = require('ws');
 const path = require('path');
 const {
-  START, STOP, SHOW_PREVIEW, DRAWING_STOPPED, DRAWING, SHOW_CANVAS, INITIALISE
+  START, STOP, SHOW_PREVIEW, DRAWING_STOPPED, DRAWING, SHOW_CANVAS, INITIALISE, CHAT
 } = require('./public/constants');
 
 const PORT = process.env.PORT || 3000;

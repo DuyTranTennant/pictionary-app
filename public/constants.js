@@ -7,6 +7,7 @@
       DRAWING: 'drawing',
       SHOW_CANVAS: 'show canvas',
       INITIALISE: 'initialise',
+      CHAT: 'chat',
   };
   if ( typeof module === 'object' && module && typeof module.exports === 'object' ) {
       module.exports = constants;
