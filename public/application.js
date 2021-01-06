@@ -12,6 +12,39 @@ $(document).ready(() => {
     var lastEvent;
     var mouseDown = false;
 
+    const toggleChatboxBtn = document.querySelector(".js-chatbox-toggle");
+    const chatbox = document.querySelector(".js-chatbox");
+    const chatboxMsgDisplay = document.querySelector(".js-chatbox-display");
+    const chatboxForm = document.querySelector(".js-chatbox-form");
+
+    // Use to create chat bubble when user submits text
+    // Appends to display
+    const createChatBubble = (input, style) => {
+        const chatSection = document.createElement("p");
+        chatSection.textContent = input;
+        chatSection.classList.add(style);
+
+        chatboxMsgDisplay.appendChild(chatSection);
+    };
+
+    // Toggle the visibility of the chatbox element when clicked
+    // And change the icon depending on visibility
+    toggleChatboxBtn.addEventListener("click", () => {
+        toggleChatbox();
+    });
+
+    // Form input using method createChatBubble
+    // To append any user message to display
+    chatboxForm.addEventListener("submit", e => {
+        const chatInput = document.querySelector(".js-chatbox-input").value;
+
+        createChatBubble(chatInput, 'your_chatbox__display_chat');
+        ws.send(JSON.stringify({ command: constants.CHAT, message: chatInput }));
+
+        e.preventDefault();
+        chatboxForm.reset();
+    });
+
     const clearSketchPad = () => {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         ws.send(JSON.stringify({command: constants.DRAWING, message: canvas.toDataURL()}));
