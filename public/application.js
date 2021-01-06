@@ -1,4 +1,3 @@
-//Problem: No user interaction causes no change to application
 
 // Solution: When user interacts cause changes appropriately
 $(document).ready(() => {
@@ -17,32 +16,17 @@ $(document).ready(() => {
     const chatboxMsgDisplay = document.querySelector(".js-chatbox-display");
     const chatboxForm = document.querySelector(".js-chatbox-form");
 
-    // Use to create chat bubble when user submits text
-    // Appends to display
-    const createChatBubble = (input, style) => {
-        const chatSection = document.createElement("p");
-        chatSection.textContent = input;
-        chatSection.classList.add(style);
-
-        chatboxMsgDisplay.appendChild(chatSection);
-    };
-
     // Toggle the visibility of the chatbox element when clicked
     // And change the icon depending on visibility
-    toggleChatboxBtn.addEventListener("click", () => {
-        toggleChatbox();
+
+    toggleChatboxBtn.addEventListener("click", function () {
+        toggleChatbox(chatbox, toggleChatboxBtn);
     });
 
     // Form input using method createChatBubble
     // To append any user message to display
     chatboxForm.addEventListener("submit", e => {
-        const chatInput = document.querySelector(".js-chatbox-input").value;
-
-        createChatBubble(chatInput, 'your_chatbox__display_chat');
-        ws.send(JSON.stringify({ command: constants.CHAT, message: chatInput }));
-
-        e.preventDefault();
-        chatboxForm.reset();
+        sendChatmessage(chatboxMsgDisplay, ws, chatboxForm, e);
     });
 
     const clearSketchPad = () => {
@@ -90,58 +74,34 @@ $(document).ready(() => {
         $("#clear").click(clearSketchPad);
     }
 
-    ws.onclose = () => {
-        $("#status").text("Disconnected")
-    }
+    ws.onclose = () => { $("#status").text("Disconnected") }
 
     ws.onmessage = ({ data }) => {
-        const { command, payload } = JSON.parse(data);
+        const { command } = JSON.parse(data);
         switch (command) {
             case constants.SHOW_CANVAS:
-                $('#board').show();
-                $("#stop").prop("disabled", false);
-                $("#clear").prop("disabled", false);
-                $("#start").prop("disabled", "disabled");
+                showCanvasEvent();
                 break;
             case constants.SHOW_PREVIEW:
-                $('#preview').show();
-                $("#start").prop("disabled", "disabled");
-                $("#stop").prop("disabled", "disabled");
-                $("#clear").prop("disabled", "disabled");
+                showPreviewEvent();
                 break;
             case constants.DRAWING_STOPPED:
-                $("#start").prop("disabled", false);
-                $("#stop").prop("disabled", "disabled");
-                $('#board').hide();
+                drawingStopEvent();
                 break;
             case constants.DRAWING:
-                $preview.prop("src", payload);
+                $preview.prop("src", JSON.parse(data).payload);
                 break;
             case constants.INITIALISE:
                 init();
                 break;
             case constants.CHAT:
-                createChatBubble(JSON.parse(data).message, 'their_chatbox__display_chat');
-                openChatBox();
+                createChatBubble(JSON.parse(data).message, 'their_chatbox__display_chat', chatboxMsgDisplay);
+                openChatBox(chatbox, toggleChatboxBtn);
                 break;
             default:
                 break;
         }
     };
-    function openChatBox(){
-        if (!$(chatbox).hasClass('chatbox--is-visible')){
-            toggleChatbox();
-        }
-    }
-    function toggleChatbox(){
-        chatbox.classList.toggle("chatbox--is-visible");
-
-        if (chatbox.classList.contains("chatbox--is-visible")) {
-            toggleChatboxBtn.innerHTML = '<i class="fas fa-chevron-down"></i>';
-        } else {
-            toggleChatboxBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
-        }      
-    }
 
     ws.onerror = (event) => {
         console.error(event);
