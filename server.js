@@ -70,8 +70,15 @@ wss.on('connection', (ws) => {
         wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING_STOPPED })));
         wss.clients.forEach((client) => client.send(JSON.stringify({ command: INITIALISE })));
         break;
+      case CHAT:
+        wss.clients.forEach((client) => {
+          if (client !== ws){
+            client.send(JSON.stringify({ command: CHAT, message: JSON.parse(message).message }));
+          }
+        })
+        break;
       default:
-        wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING, payload: message })));
+        wss.clients.forEach((client) => client.send(JSON.stringify({ command: DRAWING, payload: JSON.parse(message).message })));
     }
   });
 });
