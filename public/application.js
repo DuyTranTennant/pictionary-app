@@ -67,6 +67,7 @@ $(document).ready(() => {
             case constants.SHOW_CANVAS:
                 $('#board').show();
                 $("#stop").prop("disabled", false)
+                $("#clear").prop("disabled", false)
                 $("#start").prop("disabled", "disabled")
                 break;
             case constants.SHOW_PREVIEW:
