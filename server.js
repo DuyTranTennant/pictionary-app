@@ -55,7 +55,7 @@ wss.on('connection', (ws) => {
             client.send(JSON.stringify({ command: SHOW_PREVIEW }));
           }
         })
-        ws.send(JSON.stringify({ command: SHOW_CANVAS }))
+        ws.send(JSON.stringify({ command: SHOW_CANVAS, word: 'snowman' }))
 
         break;
 

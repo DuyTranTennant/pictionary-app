@@ -41,7 +41,8 @@ $(document).ready(() => {
         $("#clear").prop("disabled", "disabled")
         $("#board").hide();
         $("#preview").hide();
-        clearSketchPad()
+        clearSketchPad();
+        $('#word').text('--------')
     }
 
     ws.onopen = () => {
@@ -81,6 +82,7 @@ $(document).ready(() => {
         switch (command) {
             case constants.SHOW_CANVAS:
                 showCanvasEvent();
+                showWordToDraw(JSON.parse(data).word);
                 break;
             case constants.SHOW_PREVIEW:
                 showPreviewEvent();

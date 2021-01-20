@@ -5,6 +5,10 @@ function showCanvasEvent() {
     $("#start").prop("disabled", "disabled");
 }
 
+function showWordToDraw(word) {
+    $('#word').text(word);
+}
+
 function showPreviewEvent() {
     $('#preview').show();
     $("#start").prop("disabled", "disabled");
