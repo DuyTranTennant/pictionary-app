@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const express = require('express');
 const { Server } = require('ws');
 const path = require('path');
@@ -15,6 +16,7 @@ const app = express()
 
 const wss = new Server({ server: app });
 const sendToAllClients = (options) => wss.clients.forEach((client) => client.send(options));
+const randomWord = () => _.sample(['snowman', 'flower', 'car', 'dog']);
 
 let dataUrl;
 let start;
@@ -55,7 +57,7 @@ wss.on('connection', (ws) => {
             client.send(JSON.stringify({ command: SHOW_PREVIEW }));
           }
         })
-        ws.send(JSON.stringify({ command: SHOW_CANVAS, word: 'snowman' }))
+        ws.send(JSON.stringify({ command: SHOW_CANVAS, word: randomWord() }))
 
         break;
 
