@@ -15,12 +15,22 @@ $(document).ready(() => {
     const chatbox = document.querySelector(".js-chatbox");
     const chatboxMsgDisplay = document.querySelector(".js-chatbox-display");
     const chatboxForm = document.querySelector(".js-chatbox-form");
+    const sendWordToServer = document.querySelector("#send-word-to-server-js");
+    const useRandomWordsGenerator = document.querySelector("#use-random-words-generator-js");
 
     // Toggle the visibility of the chatbox element when clicked
     // And change the icon depending on visibility
 
     toggleChatboxBtn.addEventListener("click", function () {
         toggleChatbox(chatbox, toggleChatboxBtn);
+    });
+
+    sendWordToServer.addEventListener("click", function () {
+        getWordsFromServer();
+    });
+
+    useRandomWordsGenerator.addEventListener("click", function () {
+        getRandomWordsFromServer();
     });
 
     // Form input using method createChatBubble
