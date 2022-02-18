@@ -20,3 +20,11 @@ function drawingStopEvent() {
     $("#stop").prop("disabled", "disabled");
     $('#board').hide();
 }
+
+function getWordsFromServer(){
+    alert("send");
+}
+
+function getRandomWordsFromServer(){
+    alert("random");
+}
